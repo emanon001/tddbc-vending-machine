@@ -7,7 +7,7 @@ import java.util.Map;
 public class VendingMachine {
     private final Map<Money, Integer> moneyStock = new HashMap<>();
     private final Map<Juice, Integer> juiceStock = new HashMap<>();
-    private int totalMoney = 0;
+    private int totalMoneyOfDeposit = 0;
 
     public enum Money {
         TEN(10),
@@ -53,18 +53,18 @@ public class VendingMachine {
     }
 
     public void deposit(Money money) {
-        this.totalMoney += money.toInteger();
+        this.totalMoneyOfDeposit += money.toInteger();
         int currentStock = this.moneyStock.get(money);
         this.moneyStock.put(money, currentStock + 1);
     }
 
-    public int getTotalMoney() {
-        return this.totalMoney;
+    public int getTotalMoneyOfDeposit() {
+        return this.totalMoneyOfDeposit;
     }
 
     public void refund() {
-        System.out.println(getTotalMoney());
-        this.totalMoney = 0;
+        System.out.println(getTotalMoneyOfDeposit());
+        this.totalMoneyOfDeposit = 0;
         initializeMoneyStock();
     }
     

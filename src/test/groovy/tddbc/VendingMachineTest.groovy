@@ -52,7 +52,7 @@ class VendingMachineTest extends Specification {
 
     def "一回もお金を投入していない場合、投入金額として 0(円)を取得できる"() {
         expect:
-        vendingMachine.getTotalMoney() == expected
+        vendingMachine.getTotalMoneyOfDeposit() == expected
 
         where:
         expected = 0
@@ -63,7 +63,7 @@ class VendingMachineTest extends Specification {
         vendingMachine.deposit money
 
         then:
-        vendingMachine.getTotalMoney() == expected
+        vendingMachine.getTotalMoneyOfDeposit() == expected
 
         where:
         money        | expected
@@ -81,7 +81,7 @@ class VendingMachineTest extends Specification {
         }
 
         then:
-        vendingMachine.getTotalMoney() == expected
+        vendingMachine.getTotalMoneyOfDeposit() == expected
 
         where:
         anyMoney                     | expected
@@ -96,7 +96,7 @@ class VendingMachineTest extends Specification {
         }
 
         then:
-        vendingMachine.getTotalMoney() == expected
+        vendingMachine.getTotalMoneyOfDeposit() == expected
 
         where:
         anyMoney      | expected
@@ -151,7 +151,7 @@ class VendingMachineTest extends Specification {
         vendingMachine.refund()
 
         then:
-        vendingMachine.getTotalMoney() == 0
+        vendingMachine.getTotalMoneyOfDeposit() == 0
 
         where:
         anyMoney << [[TEN, FIFTY, ONE_HUNDRED], [FIVE_HUNDRED, ONE_THOUSAND]]
