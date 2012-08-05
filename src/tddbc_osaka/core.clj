@@ -3,6 +3,8 @@
 (ns tddbc-osaka.core
   (:gen-class))
 
+(declare add-sales-amount)
+
 (def initial-money-stock
   (zipmap [10 50 100 500 1000] (repeat 0)))
 
@@ -57,10 +59,13 @@
 
 (defn buy
   [machine name]
-  (let [juice-price ((get-juice-stock-of machine name) :price)]
-    (-> machine
-      (add-sales-amount juice-price)
-      (add-juice-stock name -1))))
+  (let [juice-price ((get-juice-stock-of machine name) :price)
+        total-amount (get-total-amount machine)]
+    (if (> juice-price total-amount)
+      machine
+      (-> machine
+        (add-sales-amount juice-price)
+        (add-juice-stock name -1)))))
 
 (defn get-juice-stock-of
   [machine name]

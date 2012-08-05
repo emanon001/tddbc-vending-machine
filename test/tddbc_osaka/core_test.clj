@@ -97,5 +97,10 @@
                     (deposit 10)
                     (buy "コーラ"))]
       (is (= ((get-juice-stock-of machine "コーラ") :stock) 4))
-      (is (= (machine :sales-amount) 120)))))
+      (is (= (machine :sales-amount) 120))))
+  (testing "投入金額が足りない場合にジュースを購入しようとすると、何も行なわれない"
+    ; 状態が変化しない
+    (let [before-machine (new-vending)
+          after-machine (buy before-machine "コーラ")]
+      (is (= before-machine after-machine)))))
 
