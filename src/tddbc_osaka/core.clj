@@ -8,7 +8,8 @@
 
 (defn new-vending
   []
-  {:money-stock initial-money-stock})
+  {:money-stock initial-money-stock
+   :sales-amount 0})
 
 (defn- invalid-amount?
   [machine amount]
@@ -45,7 +46,10 @@
 
 (defn buy
   [machine name]
-  machine)
+  (let [current-sales (machine :sales-amount)
+        juice-price ((get-juice-stock-of machine name) :price)]
+    (assoc machine :sales-amount
+           (+ current-sales juice-price))))
 
 (defn get-juice-stock-of
   [machine name]

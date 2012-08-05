@@ -96,7 +96,9 @@
                     (deposit 10)
                     (deposit 10)
                     (buy "コーラ"))]
-      (is (= ((get-juice-stock-of machine "コーラ") :stock) 4)))))
+      (is (= ((get-juice-stock-of machine "コーラ") :stock) 4))
+      (is (= (machine :sales-amount) 120)))))
+
 
 
 
