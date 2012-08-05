@@ -2,7 +2,7 @@
   (:gen-class))
 
 (def initial-money-stock
-     (zipmap [10 50 100 500 1000] (repeat 0)))
+  (zipmap [10 50 100 500 1000] (repeat 0)))
 
 (defn new-vending
   []
@@ -40,5 +40,3 @@
   [machine name]
   (<= (:price (first (filter (fn [{n :name}] (= n name)) (get-juice-stock machine))))
       (get-total-amount machine)))
-
-; vim: lisp
