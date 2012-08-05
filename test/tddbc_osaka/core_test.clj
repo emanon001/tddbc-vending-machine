@@ -99,8 +99,3 @@
       (is (= ((get-juice-stock-of machine "コーラ") :stock) 4))
       (is (= (machine :sales-amount) 120)))))
 
-
-
-
-
-

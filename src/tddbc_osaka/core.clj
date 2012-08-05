@@ -9,7 +9,8 @@
 (defn new-vending
   []
   {:money-stock initial-money-stock
-   :sales-amount 0})
+   :sales-amount 0
+   :juice-stock [{:name "コーラ" :price 120 :stock 5}]})
 
 (defn- invalid-amount?
   [machine amount]
@@ -35,23 +36,38 @@
   [(get-total-amount machine)
    (assoc machine :money-stock initial-money-stock)])
 
-(defn get-juice-stock
-  [machine]
-  [{:name "コーラ" :price 120 :stock 5}])
+(defn set-juice-stock-of
+  [machine name juice-stock]
+  (assoc machine :juice-stock
+         (conj (remove (fn [{n :name}] (= n name)) (machine :juice-stock))
+               juice-stock)))
+
+(defn add-juice-stock
+  [machine name amount]
+  (let [juice-stock (get-juice-stock-of machine name)]
+    (set-juice-stock-of
+      machine
+      name
+      (assoc juice-stock :stock (+ (juice-stock :stock) amount)))))
 
 (defn buyable
   [machine name]
-  (<= (:price (first (filter (fn [{n :name}] (= n name)) (get-juice-stock machine))))
+  (<= (:price (get-juice-stock-of machine name))
       (get-total-amount machine)))
 
 (defn buy
   [machine name]
-  (let [current-sales (machine :sales-amount)
-        juice-price ((get-juice-stock-of machine name) :price)]
-    (assoc machine :sales-amount
-           (+ current-sales juice-price))))
+  (let [juice-price ((get-juice-stock-of machine name) :price)]
+    (-> machine
+      (add-sales-amount juice-price)
+      (add-juice-stock name -1))))
 
 (defn get-juice-stock-of
   [machine name]
-  {:name "コーラ" :price 120 :stock 4})
+  (first (filter (fn [{n :name}] (= n name)) (machine :juice-stock))))
+
+(defn add-sales-amount
+  [machine amount]
+  (assoc machine :sales-amount
+         (+ (machine :sales-amount) amount)))
 
