@@ -102,5 +102,18 @@
     ; 状態が変化しない
     (let [before-machine (new-vending)
           after-machine (buy before-machine "コーラ")]
-      (is (= before-machine after-machine)))))
+      (is (= before-machine after-machine))))
+  (testing "150円投入状態でコーラを購入すると30円が払い戻される"
+    (let [machine (->
+                    (new-vending)
+                    (deposit 100)
+                    (deposit 50)
+                    (buy "コーラ"))]
+      (is (= (first (refund machine)) 30)))))
+
+
+
+
+
+
 

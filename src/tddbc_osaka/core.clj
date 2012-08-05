@@ -4,6 +4,7 @@
   (:gen-class))
 
 (declare add-sales-amount)
+(declare get-juice-stock-of)
 
 (def initial-money-stock
   (zipmap [10 50 100 500 1000] (repeat 0)))
@@ -57,6 +58,14 @@
   (<= (:price (get-juice-stock-of machine name))
       (get-total-amount machine)))
 
+(defn money-stock
+  [amount]
+  (second
+    (reduce
+      (fn [[a m] c] (if (> a c) [(mod a c) (assoc m c (quot a c))] [a m]))
+      [amount initial-money-stock]
+      (reverse (sort (keys initial-money-stock))))))
+
 (defn buy
   [machine name]
   (let [juice-price ((get-juice-stock-of machine name) :price)
@@ -64,15 +73,22 @@
     (if (> juice-price total-amount)
       machine
       (-> machine
+        (assoc :money-stock (money-stock (- total-amount juice-price)))
         (add-sales-amount juice-price)
         (add-juice-stock name -1)))))
 
+(defn get-juice-stock
+  [machine]
+  (machine :juice-stock))
+
 (defn get-juice-stock-of
   [machine name]
-  (first (filter (fn [{n :name}] (= n name)) (machine :juice-stock))))
+  (first (filter (fn [{n :name}] (= n name)) (get-juice-stock machine))))
 
 (defn add-sales-amount
   [machine amount]
   (assoc machine :sales-amount
          (+ (machine :sales-amount) amount)))
+
+
 
