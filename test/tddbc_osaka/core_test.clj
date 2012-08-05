@@ -87,3 +87,18 @@
           (deposit 10)
           (deposit 10)
           (buyable "コーラ"))))))
+
+(deftest buy-test
+  (testing "120円投入状態でコーラを購入する"
+    (let [machine (->
+                    (new-vending)
+                    (deposit 100)
+                    (deposit 10)
+                    (deposit 10)
+                    (buy "コーラ"))]
+      (is (= ((get-juice-stock-of machine "コーラ") :stock) 4)))))
+
+
+
+
+

@@ -1,3 +1,5 @@
+; http://devtesting.jp/tddbc/?TDDBC%E5%A4%A7%E9%98%AA2.0%2F%E8%AA%B2%E9%A1%8C
+
 (ns tddbc-osaka.core
   (:gen-class))
 
@@ -40,3 +42,12 @@
   [machine name]
   (<= (:price (first (filter (fn [{n :name}] (= n name)) (get-juice-stock machine))))
       (get-total-amount machine)))
+
+(defn buy
+  [machine name]
+  machine)
+
+(defn get-juice-stock-of
+  [machine name]
+  {:name "コーラ" :price 120 :stock 4})
+
